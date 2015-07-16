@@ -140,7 +140,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            startActivity(new Intent(LoginActivity.this, Settings.class));
+            startActivity(new Intent(LoginActivity.this, Home.class));
         }
     }
 

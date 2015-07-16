@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,10 +18,81 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class Settings extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Home extends ActionBarActivity
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        AccelerometerListener {
+
+
+    private long currentTime;
+    private int stepCount = 0;
+    private long systemTime;
+
+    public void onAccelerationChanged(float x, float y, float z) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void onShake(float force) {
+        systemTime = System.currentTimeMillis();
+
+        TextView textView = (TextView) findViewById(R.id.stepCountTextView);
+
+        if (systemTime + 10000 > currentTime) {
+            stepCount++;
+            currentTime = System.currentTimeMillis();
+        }
+
+        textView.setText(stepCount + "");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getBaseContext(), "onResume Accelerometer Started",
+                Toast.LENGTH_SHORT).show();
+
+        //Check device supported Accelerometer senssor or not
+        if (AccelerometerManager.isSupported(this)) {
+
+            //Start Accelerometer Listening
+            AccelerometerManager.startListening(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        //Check device supported Accelerometer senssor or not
+        if (AccelerometerManager.isListening()) {
+
+            //Start Accelerometer Listening
+            AccelerometerManager.stopListening();
+
+            Toast.makeText(getBaseContext(), "onStop Accelerometer Stoped",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("Sensor", "Service  destroy");
+
+        //Check device supported Accelerometer senssor or not
+        if (AccelerometerManager.isListening()) {
+
+            //Start Accelerometer Listening
+            AccelerometerManager.stopListening();
+
+            // Toast.makeText(getBaseContext(), "onDestroy Accelerometer Stopped",
+            //Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -35,7 +107,7 @@ public class Settings extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_home);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -141,7 +213,7 @@ public class Settings extends ActionBarActivity
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((Settings) activity).onSectionAttached(
+            ((Home) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
