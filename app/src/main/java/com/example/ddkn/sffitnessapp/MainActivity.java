@@ -1,11 +1,13 @@
-package sf.hackday.sffitnesstracker.frontend;
+package com.example.ddkn.sffitnessapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import sf.hackday.sffitnesstracker.R;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -14,6 +16,16 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                finish();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        };
+        Timer opening = new Timer();
+        opening.schedule(task, 4500);
     }
 
     @Override

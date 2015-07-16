@@ -13,7 +13,8 @@
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_marginTop="100dp"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
