@@ -1,22 +1,18 @@
 package com.example.ddkn.sffitnessapp;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,14 +41,14 @@ public class Home extends ActionBarActivity
             currentTime = System.currentTimeMillis();
         }
 
-        textView.setText(stepCount + "");
+        textView.setText("Steps today: " + stepCount);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getBaseContext(), "onResume Accelerometer Started",
-                Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getBaseContext(), "onResume Accelerometer Started",
+       //         Toast.LENGTH_SHORT).show();
 
         //Check device supported Accelerometer senssor or not
         if (AccelerometerManager.isSupported(this)) {
@@ -72,8 +68,9 @@ public class Home extends ActionBarActivity
             //Start Accelerometer Listening
             AccelerometerManager.stopListening();
 
-            Toast.makeText(getBaseContext(), "onStop Accelerometer Stoped",
-                    Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getBaseContext(), "onStop Accelerometer Stoped",
+         //
+         //          Toast.LENGTH_SHORT).show();
         }
 
     }

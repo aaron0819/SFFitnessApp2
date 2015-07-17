@@ -27,8 +27,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Settings"
-            android:label="@string/title_activity_settings" >
+            android:name=".Home"
+            android:label="Home" >
+        </activity>
+        <activity
+            android:name=".Account"
+            android:label="@string/title_activity_account" >
+        </activity>
+        <activity
+            android:name=".Devices"
+            android:label="@string/title_activity_devices" >
+        </activity>
+        <activity
+            android:name=".Incentives"
+            android:label="@string/title_activity_incentives" >
         </activity>
     </application>
 

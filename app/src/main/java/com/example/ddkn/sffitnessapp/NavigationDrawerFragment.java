@@ -1,5 +1,7 @@
 package com.example.ddkn.sffitnessapp;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -21,6 +23,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.apache.commons.logging.Log;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -95,6 +99,7 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
+
             }
         });
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
@@ -104,6 +109,7 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
+                        "Incentives",
                         getString(R.string.title_section3),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
@@ -125,8 +131,11 @@ public class NavigationDrawerFragment extends Fragment {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
+
+        mDrawerLayout.setScrimColor(Color.parseColor("#00FFFFFF"));
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
         // set up the drawer's list view with items and click listener
 
         ActionBar actionBar = getActionBar();
@@ -156,10 +165,11 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+
                 if (!isAdded()) {
                     return;
                 }
-
+                mDrawerLayout.bringChildToFront(drawerView);
                 if (!mUserLearnedDrawer) {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
                     // the navigation drawer automatically in the future.
@@ -193,7 +203,19 @@ public class NavigationDrawerFragment extends Fragment {
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+            if(mCurrentSelectedPosition == 0) {
+                Intent intent = new Intent(getActivity(), Account.class);
+                startActivity(intent);
+            } else if(mCurrentSelectedPosition == 1) {
+                Intent intent = new Intent(getActivity(), Devices.class);
+                startActivity(intent);
+            } else if(mCurrentSelectedPosition == 2) {
+                Intent intent = new Intent(getActivity(), Incentives.class);
+                startActivity(intent);
+            } else if(mCurrentSelectedPosition == 3) {
+                System.exit(0);
+            }
+            //mDrawerListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
@@ -246,11 +268,14 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
+            if(item.getTitle().equals("Logout")) {
+                System.exit(0);
+            }
             return true;
         }
 
         if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
             return true;
         }
 
