@@ -12,7 +12,9 @@
 
     <string name="title_section1">State Farm Account</string>
     <string name="title_section2">Connect Devices</string>
-    <string name="title_section3">Logout</string>
+    <string name="title_section3">Friend Leaderboards</string>
+    <string name="title_section4">Incentives</string>
+    <string name="title_section5">Logout</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -22,4 +24,9 @@
     <string name="title_activity_account">State Farm Account</string>
     <string name="title_activity_devices">Devices</string>
     <string name="title_activity_incentives">Incentives</string>
+    <string name="title_activity_leaderboards">leaderboards</string>
+    <string name="title_activity_test">Test</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_login_activity2">LoginActivity2</string>
+    <string name="title_activity_my_progress">MyProgress</string>
 </resources>

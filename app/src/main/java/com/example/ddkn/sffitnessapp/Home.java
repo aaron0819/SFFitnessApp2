@@ -1,30 +1,91 @@
 package com.example.ddkn.sffitnessapp;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.echo.holographlibrary.*;
+
+import java.util.ArrayList;
 
 
-public class Home extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-        AccelerometerListener {
+public class Home extends ActionBarActivity implements AccelerometerListener {
 
 
     private long currentTime;
     private int stepCount = 0;
     private long systemTime;
+    private ArrayList<Bar> points = new ArrayList<Bar>();
+    private int stepsToday = 3238;
+    private int monthlySteps = 20422;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test);
+
+        Bar d = new Bar();
+        d.setColor(Color.parseColor("#99CC00"));
+        d.setName("7/19/2015");
+        d.setValue(7902);
+        points.add(d);
+
+        Bar d2 = new Bar();
+        d2.setColor(Color.parseColor("#FFBB33"));
+        d2.setName("7/21/2015");
+        d2.setValue(9282);
+        points.add(d2);
+
+        Bar d3 = new Bar();
+        d3.setColor(Color.parseColor("#99CC00"));
+        d3.setName("7/22/2015");
+        d3.setValue(0);
+        points.add(d3);
+
+        Bar d4 = new Bar();
+        d4.setColor(Color.parseColor("#FFBB33"));
+        d4.setName("7/23/2015");
+        d4.setValue(0);
+        points.add(d4);
+
+        Bar d5 = new Bar();
+        d5.setColor(Color.parseColor("#99CC00"));
+        d5.setName("7/24/2015");
+        d5.setValue(0);
+        points.add(d5);
+
+        Bar d6 = new Bar();
+        d6.setColor(Color.parseColor("#FFBB33"));
+        d6.setName("7/25/2015");
+        d6.setValue(0);
+        points.add(d6);
+
+        Bar d7 = new Bar();
+        d7.setColor(Color.parseColor("#99CC00"));
+        d7.setName("7/26/2015");
+        d7.setValue(0);
+        points.add(d7);
+
+
+        BarGraph g = (BarGraph)findViewById(R.id.graph);
+        g.setBars(points);
+
+        Button menuButton = (Button) findViewById(R.id.button3);
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Home.this, Menu2.class));
+            }
+        });
+    }
 
     public void onAccelerationChanged(float x, float y, float z) {
         // TODO Auto-generated method stub
@@ -35,20 +96,24 @@ public class Home extends ActionBarActivity
         systemTime = System.currentTimeMillis();
 
         TextView textView = (TextView) findViewById(R.id.stepCountTextView);
+        TextView textview2 = (TextView) findViewById(R.id.stepCountMonthTextView);
 
         if (systemTime + 10000 > currentTime) {
-            stepCount++;
+            stepsToday++;
             currentTime = System.currentTimeMillis();
+            monthlySteps++;
         }
 
-        textView.setText("Steps today: " + stepCount);
+        textView.setText("Steps Today: " + stepsToday);
+        textview2.setText("Steps This Month: " + monthlySteps);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         //Toast.makeText(getBaseContext(), "onResume Accelerometer Started",
-       //         Toast.LENGTH_SHORT).show();
+        //         Toast.LENGTH_SHORT).show();
 
         //Check device supported Accelerometer senssor or not
         if (AccelerometerManager.isSupported(this)) {
@@ -68,9 +133,9 @@ public class Home extends ActionBarActivity
             //Start Accelerometer Listening
             AccelerometerManager.stopListening();
 
-         //   Toast.makeText(getBaseContext(), "onStop Accelerometer Stoped",
-         //
-         //          Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(getBaseContext(), "onStop Accelerometer Stoped",
+            //
+            //          Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -91,73 +156,11 @@ public class Home extends ActionBarActivity
         }
     }
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
-    }
-
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("Home");
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.settings, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_test, menu);
+        return true;
     }
 
     @Override
@@ -174,45 +177,5 @@ public class Home extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((Home) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
 }
+

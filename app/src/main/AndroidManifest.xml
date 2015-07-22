@@ -27,10 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
-            android:label="Home" >
-        </activity>
-        <activity
             android:name=".Account"
             android:label="@string/title_activity_account" >
         </activity>
@@ -41,6 +37,22 @@
         <activity
             android:name=".Incentives"
             android:label="@string/title_activity_incentives" >
+        </activity>
+        <activity
+            android:name=".Leaderboards"
+            android:label="@string/title_activity_leaderboards" >
+        </activity>
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".Menu2"
+            android:label="@string/title_activity_menu" >
+        </activity>
+        <activity
+            android:name=".MyProgress"
+            android:label="@string/title_activity_my_progress" >
         </activity>
     </application>
 
